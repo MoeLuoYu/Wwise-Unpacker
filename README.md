@@ -29,7 +29,13 @@
   * Unpack to OGG.bat（解包为 OGG 脚本）
   * Unpack to WAV.bat（仅解包、不转换格式）
 
-现在我们需要找到要解包的音频文件。《植物大战僵尸 2》使用 Wwise 音频，中文版（iOS）的绝大部分资源都打包在应用目录的 `main.rsb` 中，需要先用 RSB 解包工具（如 RSB Unpacker 等）将其解开，得到类似下面的目录结构：
+现在我们需要找到要解包的音频文件。《植物大战僵尸 2》使用 Wwise 音频，资源以 RSB 格式打包，但不同平台 / 版本的存放方式不同：
+
+* **iOS**（国际版和中文版相同）：全部资源在单个 `main.rsb` 中，位于应用目录内。
+* **安卓中文版**：资源可能被拆分为多个 `.rsb` 文件。
+* **安卓国际版**：为单个 `main.<内部版本号>.com.ea.game.pvz2_<区域版本>.obb` 文件（文件格式仍然是 RSB，只是扩展名不同）。
+
+用 RSB 解包工具（如 RSB Unpacker 等）将其解开，得到类似下面的目录结构（以中文版 iOS 为例）：
 
 * main（main.rsb 解包后的目录）
   * EGYPT_SOUNDBANKS、PIRATE_SOUNDBANKS、COWBOY_SOUNDBANKS 等（各世界的 BNK 音频容器）
