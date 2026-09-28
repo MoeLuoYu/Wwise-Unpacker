@@ -29,6 +29,7 @@
   * Unpack to OGG.bat（解包为 OGG 脚本）
   * Unpack to WAV.bat（仅解包、不转换格式）
   * WAV to OGG.bat、WAV to MP3.bat、OGG to MP3.bat、MP3 to OGG.bat、OGG to WAV.bat、MP3 to WAV.bat（格式互转脚本）
+  * SoundCutter.html（浏览器音频剪辑工具）
 
 现在我们需要找到要解包的音频文件。《植物大战僵尸 2》使用 Wwise 音频，资源以 RSB 格式打包，但不同平台 / 版本的存放方式不同：
 
@@ -72,6 +73,20 @@
 * "WAV to OGG / WAV to MP3" 会自动识别 WAV 的实际类型：**Wwise Vorbis WAV**（如 "Unpack to WAV" 解包出的文件）走 ww2ogg + revorb 管线；**标准 PCM WAV**（如自己录制或从其他渠道获得的文件）直接用 FFmpeg 转换。两类文件可以混放在 "WAV" 文件夹里，进度行会标注每个文件被识别为 `[Wwise]` 还是 `[PCM]`。
 * 注意 `OGG to WAV / MP3 to WAV` 输出的是标准 PCM WAV，与 "Unpack to WAV" 解包出的 Wwise 原始 WAV 是不同的格式，两者虽然都在 "WAV" 文件夹，但请勿混淆。
 * 互转脚本同样支持 quiet / debug 参数。
+
+**音频剪辑（SoundCutter）：**
+
+除了命令行脚本，本工具包还附带 `SoundCutter.html`——一个在浏览器中运行的音频剪辑工具，双击用浏览器打开即可使用（页面依赖 CDN 加载 Tailwind / Font Awesome / lamejs，首次打开需要联网）。所有音频处理均使用浏览器 API 在本地完成，不上传任何数据。
+
+功能：
+
+* 选择或拖放音频文件（支持 MP3、WAV、OGG、WebM），带预览播放器和文件信息。
+* 智能裁剪：一键生成 30 / 60 / 120 秒片段，或将音频均分为 2~10 段。
+* 手动剪辑：可视化时间轴上拖动手柄选择区间，也可精确输入开始 / 结束时间（精确到毫秒）。
+* 片段管理：列表中可单独播放、删除片段，或一键清空。
+* 批量导出：所有片段一次性导出为 WAV（无损 PCM）或 MP3（lamejs 编码，128kbps），文件名格式为 `前缀-序号_起始时间-结束时间.扩展名`（如 `clip-1_00m23s998ms-05m32s677ms.wav`），带导出进度显示，可中途取消。
+
+注意：导出为单声道（多声道会自动混合），MP3 为固定 128kbps；如需更高音质请导出 WAV 后用 "WAV to MP3.bat"（LAME `-q:a 0`）转码。
 
 **脚本参数（可选）：**
 
