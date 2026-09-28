@@ -3,7 +3,7 @@
 
 > ⚠️ **重要提示**：由于 Git 会将批处理脚本（.bat）的换行符改为 LF，请您在下载到本地使用前，将脚本转换为 CRLF 换行，否则脚本可能运行异常。
 >
-> 在本目录下打开 PowerShell 或命令行，执行以下命令即可一次性转换全部三个脚本（同时保持 GBK 编码不变）：
+> 在本目录下打开 PowerShell 或命令行，执行以下命令即可一次性转换全部脚本（同时保持 GBK 编码不变）：
 >
 > ```
 > powershell -NoProfile -Command "Get-ChildItem *.bat | ForEach-Object { $e=[Text.Encoding]::GetEncoding(936); $t=[IO.File]::ReadAllText($_.FullName,$e).Replace(\"`r`n\",\"`n\").Replace(\"`n\",\"`r`n\"); [IO.File]::WriteAllText($_.FullName,$t,$e) }"
@@ -28,6 +28,7 @@
   * Unpack to MP3.bat（解包为 MP3 脚本）
   * Unpack to OGG.bat（解包为 OGG 脚本）
   * Unpack to WAV.bat（仅解包、不转换格式）
+  * WAV to OGG.bat、WAV to MP3.bat、OGG to MP3.bat、MP3 to OGG.bat、OGG to WAV.bat、MP3 to WAV.bat（格式互转脚本）
 
 现在我们需要找到要解包的音频文件。《植物大战僵尸 2》使用 Wwise 音频，资源以 RSB 格式打包，但不同平台 / 版本的存放方式不同：
 
@@ -54,6 +55,23 @@
 把你想要解码的容器复制到 Wwise Unpacker 的 "Game Files" 文件夹里（PCK、BNK 或 WEM 均可，解包器都能处理），然后根据你的需求双击运行对应的脚本，剩下的事情交给它就行了：
 "Unpack to MP3.bat"、"Unpack to OGG.bat" 或 "Unpack to WAV.bat"（只做原始解包、不做格式转换）。
 完成后，所有解码好的文件分别在 "MP3"、"OGG" 或 "WAV" 文件夹里。
+
+**格式互转：**
+
+解包结果之间可以用六个互转脚本相互转换，它们从对应的源格式文件夹读取文件，输出到目标格式文件夹（均**不会删除源文件**）：
+
+| 脚本 | 转换 | 说明 |
+|------|------|------|
+| `WAV to OGG.bat` | WAV → OGG | 自动识别 WAV 类型（见下） |
+| `WAV to MP3.bat` | WAV → MP3 | 自动识别 WAV 类型（见下） |
+| `OGG to MP3.bat` | OGG → MP3 | FFmpeg + LAME（`-q:a 0` 最高质量 VBR） |
+| `MP3 to OGG.bat` | MP3 → OGG | FFmpeg + Vorbis（`-q:a 6`） |
+| `OGG to WAV.bat` | OGG → WAV | FFmpeg 解码为标准 PCM WAV |
+| `MP3 to WAV.bat` | MP3 → WAV | FFmpeg 解码为标准 PCM WAV |
+
+* "WAV to OGG / WAV to MP3" 会自动识别 WAV 的实际类型：**Wwise Vorbis WAV**（如 "Unpack to WAV" 解包出的文件）走 ww2ogg + revorb 管线；**标准 PCM WAV**（如自己录制或从其他渠道获得的文件）直接用 FFmpeg 转换。两类文件可以混放在 "WAV" 文件夹里，进度行会标注每个文件被识别为 `[Wwise]` 还是 `[PCM]`。
+* 注意 `OGG to WAV / MP3 to WAV` 输出的是标准 PCM WAV，与 "Unpack to WAV" 解包出的 Wwise 原始 WAV 是不同的格式，两者虽然都在 "WAV" 文件夹，但请勿混淆。
+* 互转脚本同样支持 quiet / debug 参数。
 
 **脚本参数（可选）：**
 
