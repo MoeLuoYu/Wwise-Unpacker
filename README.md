@@ -31,13 +31,12 @@
   * WAV to OGG.bat、WAV to MP3.bat、OGG to MP3.bat、MP3 to OGG.bat、OGG to WAV.bat、MP3 to WAV.bat（格式互转脚本）
   * SoundCutter.html（浏览器音频剪辑工具）
 
-现在我们需要找到要解包的音频文件。《植物大战僵尸 2》使用 Wwise 音频，资源以 RSB 格式打包，但不同平台 / 版本的存放方式不同：
+现在我们需要找到要解包的音频文件。《植物大战僵尸 2 中文版》使用 Wwise 音频，资源以 RSB 格式打包，但不同平台 / 版本的存放方式不同：
 
-* **iOS**（国际版和中文版相同）：全部资源在单个 `main.rsb` 中，位于应用目录内。
-* **安卓中文版**：资源可能被拆分为多个 `.rsb` 文件。
-* **安卓国际版**：为单个 `main.<内部版本号>.com.ea.game.pvz2_<区域版本>.obb` 文件（文件格式仍然是 RSB，只是扩展名不同）。
+* **iOS**：全部资源在单个 `main.rsb` 中，位于应用目录内。
+* **安卓**：资源可能被拆分为多个 `.rsb` 文件。
 
-用 RSB 解包工具（如 RSB Unpacker 等）将其解开，得到类似下面的目录结构（以中文版 iOS 为例）：
+用 RSB 解包工具（如 RSB Unpacker 等）将其解开，得到类似下面的目录结构（以 iOS 为例）：
 
 * main（main.rsb 解包后的目录）
   * EGYPT_SOUNDBANKS、PIRATE_SOUNDBANKS、COWBOY_SOUNDBANKS 等（各世界的 BNK 音频容器）
@@ -51,7 +50,7 @@
 * `*_SOUNDBANKS` 文件夹里是 `.BNK` 容器（如 `EGYPT_MUSIC.BNK`、`CRAZY_DAVE.BNK`），文件名能看出对应的世界和用途。
 * `*_STREAMINGWAVES` 文件夹按音库名再分一层子目录（如 `EGYPT_STREAMINGWAVES\EGYPT_MUSIC\`），里面是纯数字命名的 `.WEM` 文件（如 `158484045.WEM`）。WEM 是单条音频流，命名是资源 ID，没有语义信息。
 
-注意 BNK 是容器，里面可能包含多条音频事件；WEM 则是直接的音频数据。两者都可以直接复制到 "Game Files" 文件夹里让解包器处理。中文版与国际版的目录结构可能略有差异，但音频格式一致。
+注意 BNK 是容器，里面可能包含多条音频事件；WEM 则是直接的音频数据。两者都可以直接复制到 "Game Files" 文件夹里让解包器处理。
 
 把你想要解码的容器复制到 Wwise Unpacker 的 "Game Files" 文件夹里（PCK、BNK 或 WEM 均可，解包器都能处理），然后根据你的需求双击运行对应的脚本，剩下的事情交给它就行了：
 "Unpack to MP3.bat"、"Unpack to OGG.bat" 或 "Unpack to WAV.bat"（只做原始解包、不做格式转换）。
