@@ -31,7 +31,7 @@
   * WAV to OGG.bat、WAV to MP3.bat、OGG to MP3.bat、MP3 to OGG.bat、OGG to WAV.bat、MP3 to WAV.bat（格式互转脚本）
   * SoundCutter.html（浏览器音频剪辑工具）
 
-现在我们需要找到要解包的音频文件。《植物大战僵尸 2 中文版》使用 Wwise 音频，资源以 RSB 格式打包，但不同平台 / 版本的存放方式不同：
+现在我们需要找到要解包的音频文件。《植物大战僵尸 2 中文版》使用 Wwise 音频，资源以 SWF 格式（本质仍是RSB）打包，但不同平台 / 版本的存放方式不同：
 
 * **iOS**：全部资源在单个 `main.rsb` 中，位于安装包内/Payload/PvZ2.app/main.rsb。
 * **安卓**：资源可能被拆分为多个 `.rsb` 文件，位于安装包内/assets/*.rsb。
